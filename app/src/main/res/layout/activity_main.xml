@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sushi_bg"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp">
+
+        <!-- Spacer atas -->
+
+        <!-- Tombol Get Started -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="519dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btnGetStarted"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_marginTop="15dp"
+            android:text="Get Started"
+            android:textAllCaps="false"
+            android:backgroundTint="#FF6E00"
+            android:textColor="@color/white" />
+
+        <!-- Garis dan teks Sign in -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign In With"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="12dp" />
+
+
+        <!-- Tombol Google & Facebook -->
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="45dp"> <!-- Atur di sini -->
+
+            <ImageButton
+                android:id="@+id/btnGoogle"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/google_logo" />
+
+            <ImageButton
+                android:id="@+id/btnFacebook"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/facebook_logo"
+                android:layout_marginStart="24dp" />
+        </LinearLayout>
+
+        <!-- Text Sign Up -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't Have An Account? "
+            android:textColor="#000"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:id="@+id/tvSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Sign Up"
+            android:textColor="#F45A09"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
