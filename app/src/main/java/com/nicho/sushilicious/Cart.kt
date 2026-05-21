@@ -4,28 +4,32 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class Cart : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_cart)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        // ================= BACK BUTTON =================
+
+        val btnBack = findViewById<ImageButton>(R.id.imageButton)
+
+        btnBack.setOnClickListener {
+
+            finish()
+
         }
 
-        // tombol lanjut ke pembayaran berhasil
-        val btnPay = findViewById<Button>(R.id.button2)
-        btnPay.setOnClickListener {
-            val intent = Intent(this, PembayaranBerhasil::class.java)
-            startActivity(intent)
+        // ================= PAYMENT BUTTON =================
+
+        val btnPayment = findViewById<Button>(R.id.button2)
+
+        btnPayment.setOnClickListener {
+
+            startActivity(Intent(this, PembayaranBerhasil::class.java))
+
         }
     }
 }

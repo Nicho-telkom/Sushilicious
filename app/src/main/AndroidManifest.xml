@@ -11,42 +11,57 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Sushilicious">
-        <activity
-            android:name=".circle_gray_bg"
-            android:exported="false" />
-        <activity
-            android:name=".Notification"
-            android:exported="false" />
-        <activity
-            android:name=".PembayaranBerhasil"
-            android:exported="false" />
-        <activity
-            android:name=".Cart"
-            android:exported="false" />
-        <activity
-            android:name=".food"
-            android:exported="false" />
-        <activity
-            android:name=".profil"
-            android:exported="false" />
-        <activity
-            android:name=".Home"
-            android:exported="false" />
+
+        <!-- ================= MAIN ================= -->
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+
+        <!-- ================= AUTH ================= -->
+
         <activity
             android:name=".LoginActivity"
-            android:exported="true" />
+            android:exported="false" />
+
         <activity
             android:name=".SignUpActivity"
-            android:exported="true" />
+            android:exported="false" />
+
+        <!-- ================= APP PAGES ================= -->
+
+        <activity
+            android:name=".Home"
+            android:exported="false" />
+
+        <activity
+            android:name=".profil"
+            android:exported="false" />
+
+        <activity
+            android:name=".food"
+            android:exported="false" />
+
+        <activity
+            android:name=".Cart"
+            android:exported="false" />
+
+        <activity
+            android:name=".PembayaranBerhasil"
+            android:exported="false" />
+
+        <activity
+            android:name=".OrderHistory"
+            android:exported="false" />
+
     </application>
 
 </manifest>
