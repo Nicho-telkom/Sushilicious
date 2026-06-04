@@ -54,17 +54,15 @@ class food : AppCompatActivity() {
             val token = prefs.getString("TOKEN", null)
 
             if (token == null) {
-
                 Toast.makeText(
                     this,
                     "Silakan login dulu",
                     Toast.LENGTH_SHORT
                 ).show()
-
                 return@setOnClickListener
             }
 
-            Log.d("TOKEN_DEBUG", token)
+            Log.d("TOKEN_DEBUG", "Bearer $token")
 
             val request = AddCartRequest(
                 menu_id = 1,
@@ -73,7 +71,7 @@ class food : AppCompatActivity() {
             )
 
             RetrofitClient.instance.addToCart(
-                token,
+                "Bearer $token",
                 request
             ).enqueue(object : Callback<ApiResponse> {
 
