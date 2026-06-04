@@ -8,11 +8,15 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.nicho.sushilicious.model.ApiResponse
 import com.nicho.sushilicious.model.LoginRequest
+import com.nicho.sushilicious.model.LoginResponse
 import com.nicho.sushilicious.network.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -31,22 +35,43 @@ class LoginActivity : AppCompatActivity() {
             val email = etEmail.text.toString().trim()
             val password = etPassword.text.toString().trim()
 
+            if (email.isEmpty() || password.isEmpty()) {
+                Toast.makeText(
+                    this,
+                    "Email dan password harus diisi",
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
             val request = LoginRequest(
                 email = email,
                 password = password
             )
 
             RetrofitClient.instance.login(request)
-                .enqueue(object : retrofit2.Callback<ApiResponse> {
+                .enqueue(object : Callback<LoginResponse> {
 
                     override fun onResponse(
-                        call: retrofit2.Call<ApiResponse>,
-                        response: retrofit2.Response<ApiResponse>
+                        call: Call<LoginResponse>,
+                        response: Response<LoginResponse>
                     ) {
 
-                        if (response.isSuccessful &&
-                            response.body()?.success == true
+                        val loginResponse = response.body()
+
+                        if (
+                            response.isSuccessful &&
+                            loginResponse?.status == true
                         ) {
+
+                            val prefs = getSharedPreferences(
+                                "SUSHI_APP",
+                                Context.MODE_PRIVATE
+                            )
+
+                            prefs.edit()
+                                .putString("TOKEN", loginResponse.token)
+                                .apply()
 
                             Toast.makeText(
                                 this@LoginActivity,
@@ -70,18 +95,17 @@ class LoginActivity : AppCompatActivity() {
                                 "Email atau password salah",
                                 Toast.LENGTH_SHORT
                             ).show()
-
                         }
                     }
 
                     override fun onFailure(
-                        call: retrofit2.Call<ApiResponse>,
+                        call: Call<LoginResponse>,
                         t: Throwable
                     ) {
 
                         Toast.makeText(
                             this@LoginActivity,
-                            t.message,
+                            "Error: ${t.message}",
                             Toast.LENGTH_LONG
                         ).show()
                     }

@@ -1,7 +1,8 @@
 package com.nicho.sushilicious.model
 
 data class LoginResponse(
-    val success: Boolean,
+    val status: Boolean,
     val message: String,
-    val data: User?
+    val token: String,
+    val user: Any? = null
 )
