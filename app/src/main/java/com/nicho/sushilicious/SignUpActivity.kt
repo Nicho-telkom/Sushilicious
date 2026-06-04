@@ -9,6 +9,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.nicho.sushilicious.model.ApiResponse
+import com.nicho.sushilicious.model.RegisterRequest
+import com.nicho.sushilicious.network.RetrofitClient
 
 class SignUpActivity : AppCompatActivity() {
 
@@ -87,19 +90,66 @@ class SignUpActivity : AppCompatActivity() {
 
             // SAVE DATA
 
-            val prefs =
-                getSharedPreferences(
-                    "USER_DATA",
-                    Context.MODE_PRIVATE
-                )
+            val request = RegisterRequest(
+                name = email.substringBefore("@"),
+                username = email.substringBefore("@"),
+                email = email,
+                password = password,
+                role = "user",
+                phone = "",
+                address = ""
+            )
 
-            val editor = prefs.edit()
+            RetrofitClient.instance.register(request)
+                .enqueue(object : retrofit2.Callback<ApiResponse> {
 
-            editor.putString("EMAIL", email)
+                    override fun onResponse(
+                        call: retrofit2.Call<ApiResponse>,
+                        response: retrofit2.Response<ApiResponse>
+                    ) {
 
-            editor.putString("PASSWORD", password)
+                        if (response.isSuccessful &&
+                            response.body()?.success == true
+                        ) {
 
-            editor.apply()
+                            Toast.makeText(
+                                this@SignUpActivity,
+                                "Register Success",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            startActivity(
+                                Intent(
+                                    this@SignUpActivity,
+                                    LoginActivity::class.java
+                                )
+                            )
+
+                            finish()
+
+                        } else {
+
+                            Toast.makeText(
+                                this@SignUpActivity,
+                                response.body()?.message ?: "Register gagal",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: retrofit2.Call<ApiResponse>,
+                        t: Throwable
+                    ) {
+
+                        Toast.makeText(
+                            this@SignUpActivity,
+                            t.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                })
 
             Toast.makeText(
                 this,

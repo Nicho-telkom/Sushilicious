@@ -8,6 +8,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.nicho.sushilicious.model.ApiResponse
+import com.nicho.sushilicious.model.LoginRequest
+import com.nicho.sushilicious.network.RetrofitClient
 
 class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,25 +27,65 @@ class LoginActivity : AppCompatActivity() {
         }
 
         btnLogin.setOnClickListener {
-            val enteredEmail = etEmail.text.toString().trim()
-            val enteredPassword = etPassword.text.toString().trim()
 
-            val prefs = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
-            val savedEmail = prefs.getString("EMAIL", null)
-            val savedPassword = prefs.getString("PASSWORD", null)
+            val email = etEmail.text.toString().trim()
+            val password = etPassword.text.toString().trim()
 
-            if (savedEmail == null || savedPassword == null) {
-                Toast.makeText(this, "You need to Sign Up first", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val request = LoginRequest(
+                email = email,
+                password = password
+            )
 
-            if (enteredEmail == savedEmail && enteredPassword == savedPassword) {
-                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, Home::class.java))
-                finish()
-            } else {
-                Toast.makeText(this, "Incorrect email or password", Toast.LENGTH_SHORT).show()
-            }
+            RetrofitClient.instance.login(request)
+                .enqueue(object : retrofit2.Callback<ApiResponse> {
+
+                    override fun onResponse(
+                        call: retrofit2.Call<ApiResponse>,
+                        response: retrofit2.Response<ApiResponse>
+                    ) {
+
+                        if (response.isSuccessful &&
+                            response.body()?.success == true
+                        ) {
+
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Login Success",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            startActivity(
+                                Intent(
+                                    this@LoginActivity,
+                                    Home::class.java
+                                )
+                            )
+
+                            finish()
+
+                        } else {
+
+                            Toast.makeText(
+                                this@LoginActivity,
+                                "Email atau password salah",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+                    }
+
+                    override fun onFailure(
+                        call: retrofit2.Call<ApiResponse>,
+                        t: Throwable
+                    ) {
+
+                        Toast.makeText(
+                            this@LoginActivity,
+                            t.message,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                })
         }
     }
 }
