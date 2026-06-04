@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Background Image -->
     <ImageView
         android:id="@+id/bgImage"
         android:layout_width="match_parent"
@@ -11,7 +10,6 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ramen" />
 
-    <!-- White Card Form -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,7 +23,40 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Email -->
+            <TextView
+                android:text="Full Name"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/input_bg"
+                android:hint="Enter Your Full Name"
+                android:inputType="textPersonName"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:text="Username"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/input_bg"
+                android:hint="Enter Your Username"
+                android:inputType="text"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp"/>
+
             <TextView
                 android:text="Email Address"
                 android:textStyle="bold"
@@ -39,9 +70,9 @@
                 android:layout_height="50dp"
                 android:background="@drawable/input_bg"
                 android:hint="Enter Your Email Address"
+                android:inputType="textEmailAddress"
                 android:padding="12dp" />
 
-            <!-- Password -->
             <TextView
                 android:layout_marginTop="12dp"
                 android:text="Password"
@@ -59,7 +90,6 @@
                 android:hint="Enter Your Password"
                 android:padding="12dp" />
 
-            <!-- Confirm Password -->
             <TextView
                 android:layout_marginTop="12dp"
                 android:text="Confirm Password"
@@ -77,7 +107,6 @@
                 android:hint="Enter Your Password"
                 android:padding="12dp" />
 
-            <!-- Checkbox -->
             <CheckBox
                 android:id="@+id/checkboxTerms"
                 android:layout_width="wrap_content"
@@ -86,7 +115,6 @@
                 android:textSize="12sp"
                 android:layout_marginTop="10dp" />
 
-            <!-- Sign Up Button -->
             <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
@@ -97,7 +125,6 @@
                 android:backgroundTint="#FF6E00"
                 android:textColor="@color/white" />
 
-            <!-- Divider Title -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -105,7 +132,6 @@
                 android:layout_marginTop="15dp"
                 android:text="Sign Up With" />
 
-            <!-- Social Login Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,7 +153,6 @@
                     android:layout_marginStart="30dp" />
             </LinearLayout>
 
-            <!-- Already have account center -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

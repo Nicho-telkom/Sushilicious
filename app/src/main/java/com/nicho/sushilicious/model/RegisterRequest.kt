@@ -5,6 +5,7 @@ data class RegisterRequest(
     val username: String,
     val email: String,
     val password: String,
+    val password_confirmation: String, // TAMBAHKAN BARIS INI
     val role: String,
     val phone: String,
     val address: String

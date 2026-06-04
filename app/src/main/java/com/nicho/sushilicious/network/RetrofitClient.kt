@@ -1,12 +1,11 @@
 package com.nicho.sushilicious.network
 
 import retrofit2.Retrofit
-
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://10.207.91.145:8000/"
+    private const val BASE_URL = "http://10.5.50.251:8000/"
 
     val instance: ApiService by lazy {
         Retrofit.Builder()

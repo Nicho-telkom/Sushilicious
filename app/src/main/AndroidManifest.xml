@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -11,9 +12,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Sushilicious">
+        android:theme="@style/Theme.Sushilicious"
 
-        <!-- ================= MAIN ================= -->
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name=".MainActivity"
@@ -27,8 +28,6 @@
 
         </activity>
 
-        <!-- ================= AUTH ================= -->
-
         <activity
             android:name=".LoginActivity"
             android:exported="false" />
@@ -36,8 +35,6 @@
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />
-
-        <!-- ================= APP PAGES ================= -->
 
         <activity
             android:name=".Home"
