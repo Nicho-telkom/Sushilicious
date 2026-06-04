@@ -8,8 +8,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.nicho.sushilicious.model.SearchResponse
 import com.nicho.sushilicious.model.SushiResponse
 import com.nicho.sushilicious.network.RetrofitClient
 import retrofit2.Call
@@ -31,6 +33,28 @@ class Home : AppCompatActivity() {
 
         // ================= API CALL =================
         getMenuFromServer()
+
+        // ================= SEARCH =================
+        val searchView = findViewById<SearchView>(R.id.searchView)
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            // Dipanggil saat user tekan tombol search / enter
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (!query.isNullOrBlank()) {
+                    searchMenu(query.trim())
+                }
+                return true
+            }
+
+            // Dipanggil setiap huruf berubah — search real-time
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (!newText.isNullOrBlank() && newText.length >= 2) {
+                    searchMenu(newText.trim())
+                }
+                return true
+            }
+        })
 
         // ================= CLICK UI =================
         findViewById<ImageView>(R.id.imageView6).setOnClickListener {
@@ -66,7 +90,58 @@ class Home : AppCompatActivity() {
         }
     }
 
-    // ================= API FUNCTION =================
+    // ================= SEARCH FUNCTION =================
+    private fun searchMenu(keyword: String) {
+
+        RetrofitClient.instance.searchMenus(keyword)
+            .enqueue(object : Callback<SearchResponse> {
+
+                override fun onResponse(
+                    call: Call<SearchResponse>,
+                    response: Response<SearchResponse>
+                ) {
+                    if (response.isSuccessful && response.body()?.status == true) {
+
+                        val results = response.body()?.data
+
+                        if (results.isNullOrEmpty()) {
+                            Toast.makeText(
+                                this@Home,
+                                "Menu '$keyword' tidak ditemukan",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            // Kirim hasil ke SearchResultActivity
+                            val intent = Intent(this@Home, SearchResultActivity::class.java)
+                            intent.putExtra("keyword", keyword)
+                            intent.putParcelableArrayListExtra(
+                                "results",
+                                ArrayList(results)
+                            )
+                            startActivity(intent)
+                        }
+
+                    } else {
+                        Toast.makeText(
+                            this@Home,
+                            "Menu tidak ditemukan",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                    Log.e("SearchError", t.message ?: "Unknown error")
+                    Toast.makeText(
+                        this@Home,
+                        "Gagal terhubung ke server",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
+    }
+
+    // ================= POPULAR MENU FUNCTION =================
     private fun getMenuFromServer() {
 
         RetrofitClient.instance.getPopularSushi()
@@ -76,25 +151,13 @@ class Home : AppCompatActivity() {
                     call: Call<List<SushiResponse>>,
                     response: Response<List<SushiResponse>>
                 ) {
-
                     if (response.isSuccessful) {
-
                         val sushiList = response.body()
-
-                        // ✔️ FIX ERROR isNotEmpty
                         if (!sushiList.isNullOrEmpty()) {
-
-                            val topSushi = sushiList[0]
-
-                            Log.d(
-                                "RetrofitSuccess",
-                                "Data berhasil: ${topSushi.name}"
-                            )
-
+                            Log.d("RetrofitSuccess", "Data berhasil: ${sushiList[0].name}")
                         } else {
                             Log.d("RetrofitSuccess", "Data kosong dari server")
                         }
-
                     } else {
                         Log.e("RetrofitError", "Response gagal: ${response.code()}")
                     }
@@ -102,7 +165,6 @@ class Home : AppCompatActivity() {
 
                 override fun onFailure(call: Call<List<SushiResponse>>, t: Throwable) {
                     Log.e("RetrofitError", "Gagal konek: ${t.message}")
-
                     Toast.makeText(
                         this@Home,
                         "Gagal terhubung ke server",
