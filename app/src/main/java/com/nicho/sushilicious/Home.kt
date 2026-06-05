@@ -39,7 +39,6 @@ class Home : AppCompatActivity() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
-            // Dipanggil saat user tekan tombol search / enter
             override fun onQueryTextSubmit(query: String?): Boolean {
                 if (!query.isNullOrBlank()) {
                     searchMenu(query.trim())
@@ -47,7 +46,6 @@ class Home : AppCompatActivity() {
                 return true
             }
 
-            // Dipanggil setiap huruf berubah — search real-time
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (!newText.isNullOrBlank() && newText.length >= 2) {
                     searchMenu(newText.trim())
@@ -81,8 +79,9 @@ class Home : AppCompatActivity() {
             Toast.makeText(this, "Menu Chat belum tersedia", Toast.LENGTH_SHORT).show()
         }
 
+        // ================= NOTIFIKASI =================
         findViewById<ImageView>(R.id.navNotif).setOnClickListener {
-            Toast.makeText(this, "Menu Notifikasi belum tersedia", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, NotificationActivity::class.java))
         }
 
         findViewById<ImageView>(R.id.navProfileBottom).setOnClickListener {
@@ -111,7 +110,6 @@ class Home : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
                         } else {
-                            // Kirim hasil ke SearchResultActivity
                             val intent = Intent(this@Home, SearchResultActivity::class.java)
                             intent.putExtra("keyword", keyword)
                             intent.putParcelableArrayListExtra(

@@ -32,9 +32,8 @@
         <activity android:name=".Cart" android:exported="false" />
         <activity android:name=".PembayaranBerhasil" android:exported="false" />
         <activity android:name=".OrderHistory" android:exported="false" />
-
-        <!-- Tambahan ini -->
         <activity android:name=".SearchResultActivity" android:exported="false" />
+        <activity android:name=".NotificationActivity" android:exported="false" />
 
     </application>
 

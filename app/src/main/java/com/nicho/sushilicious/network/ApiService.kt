@@ -7,6 +7,7 @@ import com.nicho.sushilicious.model.CouponResponse
 import com.nicho.sushilicious.model.HistoryResponse
 import com.nicho.sushilicious.model.LoginRequest
 import com.nicho.sushilicious.model.LoginResponse
+import com.nicho.sushilicious.model.NotificationResponse
 import com.nicho.sushilicious.model.OrderResponse
 import com.nicho.sushilicious.model.RegisterRequest
 import com.nicho.sushilicious.model.SearchResponse
@@ -54,4 +55,9 @@ interface ApiService {
     fun getOrderHistory(
         @Header("Authorization") token: String
     ): Call<HistoryResponse>
+
+    @GET("notifications")
+    fun getNotifications(
+        @Header("Authorization") token: String
+    ): Call<NotificationResponse>
 }
